@@ -6,12 +6,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.NavHostController
 import io.warrington.todocompose.navigation.destinations.listComposable
 import io.warrington.todocompose.navigation.destinations.taskComposable
-import io.warrington.todocompose.ui.viewmodel.SharedViewModel
 
 @Composable
 fun SetupNavigation(
-    navController: NavHostController,
-    sharedViewModel: SharedViewModel
+    navController: NavHostController
 ) {
     val screen = remember(navController) {
         Screens(navController = navController)
@@ -19,8 +17,7 @@ fun SetupNavigation(
 
     NavHost(navController = navController, startDestination = "list/{action}") {
         listComposable(
-            navigateToTaskScreen = screen.task,
-            sharedViewModel = sharedViewModel
+            navigateToTaskScreen = screen.task
         )
         taskComposable(
             navigateToTaskScreen = screen.list

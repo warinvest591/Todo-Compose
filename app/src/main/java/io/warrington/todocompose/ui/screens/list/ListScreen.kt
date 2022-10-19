@@ -33,9 +33,7 @@ fun ListScreen(
                 searchTextState = searchTextState
             )
         },
-        content = {
-            ListContent()
-        },
+        content = {},
         floatingActionButton = {
             ListFab(onFabClick = navigateToTaskScreen)
         }
@@ -58,4 +56,10 @@ fun ListFab(
             tint = Color.White
         )
     }
+}
+
+@Composable
+@Preview
+private fun ListScreenPreview() {
+    ListScreen(navigateToTaskScreen = {})
 }
