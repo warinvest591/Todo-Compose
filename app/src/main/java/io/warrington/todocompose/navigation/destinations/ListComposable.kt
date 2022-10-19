@@ -5,11 +5,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import io.warrington.todocompose.ui.screens.list.ListScreen
-import io.warrington.todocompose.ui.viewmodel.SharedViewModel
 
 fun NavGraphBuilder.listComposable(
-    navigateToTaskScreen: (taskId: Int) -> Unit,
-    sharedViewModel: SharedViewModel
+    navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
     composable(
         route = "list/{action}",
@@ -18,9 +16,6 @@ fun NavGraphBuilder.listComposable(
         })
     ) {
         // Here we are designing our screen
-        ListScreen(
-            navigateToTaskScreen = navigateToTaskScreen,
-            sharedViewModel = sharedViewModel
-        )
+        ListScreen(navigateToTaskScreen = navigateToTaskScreen)
     }
 }
