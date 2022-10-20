@@ -25,6 +25,6 @@ jobs:
           version-file-extraction-pattern: ${{ env.VERSION_EXTRACT_PATTERN }}
       - uses: rickstaa/action-create-tag@v1
         with:
-          tag: "${{ env.CURRENT_VERSION }}"
+          tag: "v${{ env.CURRENT_VERSION }}"
           message: "Latest release"
     
