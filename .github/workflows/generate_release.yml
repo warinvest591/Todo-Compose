@@ -4,7 +4,7 @@ name: Generate Release
 on:
   pull_request:
     branches:
-      - stage
+      - main
     
 env:
   VERSION_FILE: version.properties
@@ -26,20 +26,18 @@ jobs:
         with:
           tag: "v${{ env.CURRENT_VERSION }}"
       - name: Generate Changelog
-        uses: actions/checkout@v2
-          with:
-            fetch-depth: 50
-            - uses: fregante/release-with-changelog@v3
-              with:
-                token: ${{ secrets.GITHUB_TOKEN }}
-                exclude: '^Meta'
-                  commit-template: '- {title} ← {hash}'
-                  template: |
-                    ### Changelog
-                    
-                    {commits}
-                    
-                    {range}
-                    
-                    ❤
+        uses: fregante/release-with-changelog@v3
+        with:
+          fetch-depth: 50
+          token: ${{ secrets.GITHUB_TOKEN }}
+          exclude: '^Meta'
+            commit-template: '- {title} ← {hash}'
+            template: |
+              ### Changelog
+              
+              {commits}
+              
+              {range}
+              
+              ❤
           
