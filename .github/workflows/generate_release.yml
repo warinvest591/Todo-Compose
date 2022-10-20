@@ -11,7 +11,7 @@ env:
   VERSION_EXTRACT_PATTERN: '(?<=VERSION_NUMBER=).+'
   
 jobs:
-  Generate_Release:
+  Build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout branch
@@ -21,23 +21,24 @@ jobs:
           version-source: file
           version-file: ${{ env.VERSION_FILE }}
           version-file-extraction-pattern: ${{ env.VERSION_EXTRACT_PATTERN }}
-      - name: Create tag
+      - name: Create tag #based on version number
         uses: rickstaa/action-create-tag@v1
         with:
           tag: "v${{ env.CURRENT_VERSION }}"
       - name: Generate Changelog
-        uses: fregante/release-with-changelog@v3
+        uses: Bullrich/generate-release-changelog@master
+        id: Changelog
+        env:
+          REPO: ${{ github.repository }}
+      - name: Create Release Notes
+        id: create_release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          fetch-depth: 50
-          token: ${{ secrets.GITHUB_TOKEN }}
-          exclude: '^Meta'
-            commit-template: '- {title} ← {hash}'
-            template: |
-              ### Changelog
-              
-              {commits}
-              
-              {range}
-              
-              ❤
-          
+          tag_name: "v${{ env.CURRENT_VERSION }}"
+          release_name: "Release v${{ env.CURRENT_VERSION }}"
+          body: |
+            ${{ steps.Changelog.outputs.changelog }}
+          draft: false
+          prerelease: false
