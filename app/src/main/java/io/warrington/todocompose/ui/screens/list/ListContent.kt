@@ -30,7 +30,6 @@ fun TaskItem(
     toDoTask: ToDoTask,
     navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
-    // I love services
     Surface(
         modifier = Modifier.fillMaxWidth(),
         color = MaterialTheme.colors.taskItemBackgroundColor,
