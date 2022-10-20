@@ -4,14 +4,14 @@ name: Generate Release
 on:
   pull_request:
     branches:
-      - main
+      - stage
     
 env:
   VERSION_FILE: version.properties
   VERSION_EXTRACT_PATTERN: '(?<=VERSION_NUMBER=).+'
   
 jobs:
-  Build:
+  Generate_Release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout branch
