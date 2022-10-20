@@ -25,6 +25,13 @@ jobs:
           version-file-extraction-pattern: ${{ env.VERSION_EXTRACT_PATTERN }}
       - uses: rickstaa/action-create-tag@v1
         with:
-          tag: "${{ env.CURRENT_VERSION }}"
-          message: "Latest release"
+          tag: "v${{ env.CURRENT_VERSION }}"
+  release:
+    name: "Release"
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
     
