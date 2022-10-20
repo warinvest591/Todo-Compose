@@ -19,14 +19,12 @@ jobs:
     steps:
       - name: Checkout branch
         uses: actions/checkout@v3
-
       - name: Get Spacejam version
         uses: HardNorth/github-version-generate@v1.1.1
         with:
           version-source: file
           version-file: ${{ env.VERSION_FILE }}
           version-file-extraction-pattern: ${{ env.VERSION_EXTRACT_PATTERN }}
-
       - name: Create tag
         uses: rickstaa/action-create-tag@v1
         with:
