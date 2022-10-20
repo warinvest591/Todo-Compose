@@ -26,20 +26,20 @@ jobs:
         with:
           tag: "v${{ env.CURRENT_VERSION }}"
       - name: Generate Changelog
-        steps:
-          - uses: actions/checkout@v2
-            with:
-              fetch-depth: 50
-          - uses: fregante/release-with-changelog@v3
-            with:
-              token: ${{ secrets.GITHUB_TOKEN }}
-              exclude: '^Meta'
-                commit-template: '- {title} ← {hash}'
-                template: |
-                  ### Changelog
-                  
-                  {commits}
-                  
-                  {range}
-                  
-                  ❤
+        uses: actions/checkout@v2
+          with:
+            fetch-depth: 50
+            - uses: fregante/release-with-changelog@v3
+              with:
+                token: ${{ secrets.GITHUB_TOKEN }}
+                exclude: '^Meta'
+                  commit-template: '- {title} ← {hash}'
+                  template: |
+                    ### Changelog
+                    
+                    {commits}
+                    
+                    {range}
+                    
+                    ❤
+          
