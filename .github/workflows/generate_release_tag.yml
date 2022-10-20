@@ -1,11 +1,11 @@
-# This work flow will create a tag when merging to main
-name: Generate Release
+# This work flow will create a tag when merging to stage
+name: Generate Tag
 
 on:
   pull_request_target:
     types:
       - closed
-    branches: [ main ]
+    branches: [ stage ]
     
 env:
   VERSION_FILE: version.properties
@@ -14,7 +14,6 @@ env:
 jobs:
   Build:
     if: github.event.pull_request.merged == true
-    name: Generate Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout branch
