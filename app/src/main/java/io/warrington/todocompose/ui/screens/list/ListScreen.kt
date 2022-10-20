@@ -18,7 +18,7 @@ fun ListScreen(navigateToTaskScreen: (taskId: Int) -> Unit) {
     // learn more about scaffolding
     Scaffold(
         topBar = {
-            ListAppBar()
+            ListAppBar() // Nice List App Bar
         },
         content = {
             ListContent()
