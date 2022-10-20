@@ -4,14 +4,14 @@ name: Generate Release
 on:
   pull_request:
     branches:
-      - main
+      - stage
     
 env:
   VERSION_FILE: version.properties
   VERSION_EXTRACT_PATTERN: '(?<=VERSION_NUMBER=).+'
   
 jobs:
-  Build:
+  Generate_Release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout branch
@@ -26,19 +26,20 @@ jobs:
         with:
           tag: "v${{ env.CURRENT_VERSION }}"
       - name: Generate Changelog
-        uses: Bullrich/generate-release-changelog@master
-        id: Changelog
-        env:
-          REPO: ${{ github.repository }}
-      - name: Create Release Notes
-        id: create_release
-        uses: actions/create-release@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: "v${{ env.CURRENT_VERSION }}"
-          release_name: "Release v${{ env.CURRENT_VERSION }}"
-          body: |
-            ${{ steps.Changelog.outputs.changelog }}
-          draft: false
-          prerelease: false
+        steps:
+          - uses: actions/checkout@v2
+            with:
+              fetch-depth: 50
+          - uses: fregante/release-with-changelog@v3
+            with:
+              token: ${{ secrets.GITHUB_TOKEN }}
+              exclude: '^Meta'
+                commit-template: '- {title} ← {hash}'
+                template: |
+                  ### Changelog
+                  
+                  {commits}
+                  
+                  {range}
+                  
+                  ❤
