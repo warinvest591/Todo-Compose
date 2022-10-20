@@ -15,7 +15,6 @@ fun NavGraphBuilder.listComposable(
             type = NavType.StringType
         })
     ) {
-        // Here we are designing our screen
         ListScreen(navigateToTaskScreen = navigateToTaskScreen)
     }
 }
