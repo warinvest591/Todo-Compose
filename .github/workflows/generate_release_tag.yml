@@ -1,0 +1,33 @@
+# This work flow will create a tag when merging to main
+name: Generate Release
+
+on:
+  pull_request_target:
+    types:
+      - closed
+    branches: [ main ]
+    
+env:
+  VERSION_FILE: version.properties
+  VERSION_EXTRACT_PATTERN: '(?<=VERSION_NUMBER=).+'
+  
+jobs:
+  Build:
+    if: github.event.pull_request.merged == true
+    name: Generate Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v3
+
+      - name: Get Spacejam version
+      - uses: HardNorth/github-version-generate@v1.1.1
+        with:
+          version-source: file
+          version-file: ${{ env.VERSION_FILE }}
+          version-file-extraction-pattern: ${{ env.VERSION_EXTRACT_PATTERN }}
+
+      - name: Create tag
+        uses: rickstaa/action-create-tag@v1
+        with:
+          tag: "${{ env.CURRENT_VERSION }}"
