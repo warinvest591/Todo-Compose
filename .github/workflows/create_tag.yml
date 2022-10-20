@@ -1,6 +1,5 @@
 # This work flow will create a tag when merging to main
-
-name: Tag on merge
+name: Generate Release Tag
 
 on:
   pull_request_target:
@@ -26,29 +25,3 @@ jobs:
       - uses: rickstaa/action-create-tag@v1
         with:
           tag: "v${{ env.CURRENT_VERSION }}"
-  build:
-    name: Create Release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - name: Changelog
-        uses: Bullrich/generate-release-changelog@master
-        id: Changelog
-        env:
-          REPO: ${{ github.repository }}
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-        with:
-          tag_name: "v${{ env.CURRENT_VERSION }}"
-          release_name: Release v${{ env.CURRENT_VERSION }}
-          body: |
-            ${{ steps.Changelog.outputs.changelog }}
-          draft: false
-          prerelease: false
-    
