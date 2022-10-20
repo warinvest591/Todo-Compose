@@ -24,7 +24,7 @@ fun ListScreen(navigateToTaskScreen: (taskId: Int) -> Unit) {
             ListContent()
         },
         floatingActionButton = {
-            ListFab(onFabClick = navigateToTaskScreen)
+            ListFab(onFabClick = navigateToTaskScreen) // Portfolio Details Comment
         }
     )
 }
