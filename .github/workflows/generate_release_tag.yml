@@ -37,30 +37,23 @@ jobs:
         with:
           tag: "${{ env.CURRENT_VERSION }}"
 
-        # Generates Change Log or Update existing
-      - name: Update CHANGELOG
-        id: changelog
-        uses: Requarks/changelog-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ env.CURRENT_VERSION }}
+        # Generates Change Log
+      - name: Create changelogs
+        id: changelogs
+        uses: heineiuo/create-changelogs@master
+
+      - name: Get Changelog Output
+        run: |
+          echo "${{ steps.changelogs.outputs.changelogs }}"
 
         # Creates release based on Change log
-      - name: CreateRelease
+      - name: Create Release
         uses: actions/create-release@latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: "${{ env.CURRENT_VERSION }}"
           release_name: "Release ${{ env.CURRENT_VERSION }}"
-          body: ${{ steps.changelog.outputs.changes }}
+          body: ${{ steps.changelogs.outputs.changelogs }}
           draft: false
           prerelease: false
-
-        # Commit Changes to log
-      - name: Commit CHANGELOG.md
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          branch: main
-          commit_message: 'docs: update CHANGELOG.md for ${{ env.CURRENT_VERSION }} [skip ci]'
-          file_pattern: CHANGELOG.md
