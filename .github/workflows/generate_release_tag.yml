@@ -52,6 +52,6 @@ jobs:
           tag_name: "${{ env.CURRENT_VERSION }}"
           release_name: "Release ${{ env.CURRENT_VERSION }}"
           body: |
-            ${{ steps.Changelog.outputs.changelog }}
+            ${{ steps.changelog.outputs.changelog }}
           draft: false
           prerelease: false
