@@ -43,6 +43,8 @@ jobs:
         with:
           release_version: ${{ env.CURRENT_VERSION }}
           github_token: ${{ secrets.YOUR_GITHUB_TOKEN }}
+      
+      - name: Print out changelog
         run: |
           echo "${{ steps.changelog-ci.outputs.changelog }}"
           echo "${{ steps.changelog-ci.outputs.changelog }}" >> $GITHUB_STEP_SUMMARY
