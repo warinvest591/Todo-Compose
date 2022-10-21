@@ -18,7 +18,7 @@ env:
   VERSION_EXTRACT_PATTERN: '(?<=VERSION_NUMBER=).+'
   
 jobs: 
-  Tagging:
+  Release:
     runs-on: ubuntu-latest
     steps:
         # This work flow will create a tag when merging to stage
@@ -38,11 +38,12 @@ jobs:
           tag: "${{ env.CURRENT_VERSION }}"
 
         # Generates Change Log
-      - name: Changelog
+      - name: Update CHANGELOG
         id: changelog
-        uses: heinrichreimer/github-changelog-generator-action@v2.3
+        uses: Requarks/changelog-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ env.CURRENT_VERSION }}
 
         # Creates release based on Change log
       - name: CreateRelease
@@ -52,6 +53,14 @@ jobs:
         with:
           tag_name: "${{ env.CURRENT_VERSION }}"
           release_name: "Release ${{ env.CURRENT_VERSION }}"
-          body_path: /github/workspace/CHANGELOG.md
+          body: ${{ steps.changelog.outputs.changes }}
           draft: false
           prerelease: false
+
+        # Commit Changes to log
+      - name: Commit CHANGELOG.md
+          uses: stefanzweifel/git-auto-commit-action@v4
+          with:
+            branch: main
+            commit_message: 'docs: update CHANGELOG.md for ${{ env.CURRENT_VERSION }} [skip ci]'
+            file_pattern: CHANGELOG.md
