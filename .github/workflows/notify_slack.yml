@@ -1,9 +1,9 @@
 # This work flow will create a tag when merging to stage
 name: Notify Slack
 
-on: 
+on:
   release:
-  - published
+    types: [published]
   
 jobs:
   Release:
