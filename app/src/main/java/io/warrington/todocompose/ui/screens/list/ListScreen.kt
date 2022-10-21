@@ -15,7 +15,6 @@ import io.warrington.todocompose.ui.theme.fabBackgroundColor
 
 @Composable
 fun ListScreen(navigateToTaskScreen: (taskId: Int) -> Unit) {
-    // learn more about scaffolding
     Scaffold(
         topBar = {
             ListAppBar() // Nice List App Bar
