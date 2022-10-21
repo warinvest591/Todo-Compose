@@ -1,5 +1,5 @@
 # This work flow will create a tag when merging to stage
-name: Generate Tag
+name: Generate Release
 
 on: 
   workflow_dispatch:
@@ -17,6 +17,7 @@ jobs:
   Tagging:
     runs-on: ubuntu-latest
     steps:
+        # This work flow will create a tag when merging to stage
       - name: Checkout branch
         uses: actions/checkout@v3
       - name: Get Spacejam version
@@ -25,13 +26,20 @@ jobs:
           version-source: file
           version-file: ${{ env.VERSION_FILE }}
           version-file-extraction-pattern: ${{ env.VERSION_EXTRACT_PATTERN }}
+
+        # Creates a tag based on the variable found in versions.properties file
       - name: Tagging release
         uses: rickstaa/action-create-tag@v1
         with:
           tag: "${{ env.CURRENT_VERSION }}"
+
+        # Generates Change Log
       - name: Changelog
-        uses: scottbrenner/generate-changelog-action@master
-        id: Changelog
+        uses: heinrichreimer/github-changelog-generator-action@v2.3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+        # Creates release based on Change log
       - name: CreateRelease
         uses: actions/create-release@latest
         env:
