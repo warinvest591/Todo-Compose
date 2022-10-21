@@ -1,12 +1,8 @@
 # This work flow will create a tag when merging to stage
-name: Generate Tag
+name: Notify Slack
 
 on: 
-  workflow_dispatch:
-  pull_request:
-    types:
-      - closed
-    branches: [ stage ]
+  release:
   
     
 env:
