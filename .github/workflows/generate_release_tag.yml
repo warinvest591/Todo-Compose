@@ -3,11 +3,6 @@ name: Generate Tag
 
 on: 
   workflow_dispatch:
-    inputs:
-      version:
-        description: Tag
-        default: v1.0.0
-        required: false
   pull_request:
     types:
       - closed
@@ -34,27 +29,3 @@ jobs:
         uses: rickstaa/action-create-tag@v1
         with:
           tag: "${{ env.CURRENT_VERSION }}"
-  Release:
-    needs: [Tagging]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-  Notify:
-    name: Notify Release
-    needs: [Release]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Post to slack
-        uses: slackapi/slack-github-action@v1.22.0
-        with:
-          channel-id: 'C047GKXQ5B5'
-          payload: |
-            {
-                "text": "${{ format('{0} *{1}* | <{2}|v{3} Released>', ':git-release:', github.event.repository.name, github.event.release.html_url, github.event.release.tag_name) }}"
-            }
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
