@@ -36,8 +36,17 @@ jobs:
         with:
           tag: "${{ env.CURRENT_VERSION }}"
   Release:
-    name: Notify Release
     needs: [Tagging]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+  Notify:
+    name: Notify Release
+    needs: [Release]
     runs-on: ubuntu-latest
     steps:
       - name: Post to slack
