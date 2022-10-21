@@ -52,6 +52,6 @@ jobs:
         with:
           tag_name: "${{ env.CURRENT_VERSION }}"
           release_name: "Release ${{ env.CURRENT_VERSION }}"
-          body_path: ./github/workspace/CHANGELOG.md
+          body_path: /github/workspace/CHANGELOG.md
           draft: false
           prerelease: false
