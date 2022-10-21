@@ -1,9 +1,9 @@
 # Generate Release Notes
 #
-# This github action allows us to tag, create changelog, create a github release and notify slack Spacejam's slack channel.
+# This github action allows us get a readout of all the changes made to the BFF after deploying to the production environment.
 # The event is triggered on demand or when a pull request has been closed on master.
 # The "on closed" filter is temporary. A better solution would be to trigger on merge but the "pull request" action
-# does not have this type available.
+# does not have this type available at the moment.
 name: Generate Release Notes
 
 on: 
@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
         # This work flow will create a tag when merging to stage
-      - name: Checkout branch
+      - name: Checkout
         uses: actions/checkout@v3
       - name: Get Spacejam version
         uses: HardNorth/github-version-generate@v1.1.1
