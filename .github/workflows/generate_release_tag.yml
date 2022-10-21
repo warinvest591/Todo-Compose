@@ -1,10 +1,10 @@
-# Generate Release
+# Generate Release Notes
 #
 # This github action allows us to tag, create changelog, create a github release and notify slack Spacejam's slack channel.
 # The event is triggered on demand or when a pull request has been closed on master.
 # The "on closed" filter is temporary. A better solution would be to trigger on merge but the "pull request" action
 # does not have this type available.
-name: Generate Release
+name: Generate Release Notes
 
 on: 
   workflow_dispatch:
