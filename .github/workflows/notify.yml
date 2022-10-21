@@ -1,0 +1,22 @@
+# This work flow will create a tag when merging to stage
+name: Notify
+
+on:
+  release:
+    types: [published]
+  
+jobs:
+  Release:
+    name: Notify Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post to slack
+        uses: slackapi/slack-github-action@v1.22.0
+        with:
+          channel-id: 'C047GKXQ5B5'
+          payload: |
+            {
+                "text": "${{ format('{0} *{1}* | <{2}|v{3} Released>', ':git-release:', github.event.repository.name, github.event.release.html_url, github.event.release.tag_name) }}"
+            }
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
