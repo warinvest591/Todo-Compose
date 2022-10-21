@@ -40,20 +40,22 @@ jobs:
         # Generates Change Log
       - name: Create changelogs
         id: changelogs
-        uses: heineiuo/create-changelogs@master
+        uses: heinrichreimer/github-changelog-generator-action@v2.3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get Changelog Output
         run: |
-          echo "${{ steps.changelogs.outputs.changelogs }}"
+          echo "${{ steps.changelogs.outputs.changelog }}"
 
-        # Creates release based on Change log
-      - name: Create Release
-        uses: actions/create-release@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: "${{ env.CURRENT_VERSION }}"
-          release_name: "Release ${{ env.CURRENT_VERSION }}"
-          body: ${{ steps.changelogs.outputs.changelogs }}
-          draft: false
-          prerelease: false
+#        # Creates release based on Change log
+#      - name: Create Release
+#        uses: actions/create-release@latest
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          tag_name: "${{ env.CURRENT_VERSION }}"
+#          release_name: "Release ${{ env.CURRENT_VERSION }}"
+#          body: ${{ steps.changelogs.outputs.changelogs }}
+#          draft: false
+#          prerelease: false
