@@ -48,14 +48,14 @@ jobs:
         run: |
           echo "${{ steps.changelogs.outputs.changelog }}"
 
-#        # Creates release based on Change log
-#      - name: Create Release
-#        uses: actions/create-release@latest
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        with:
-#          tag_name: "${{ env.CURRENT_VERSION }}"
-#          release_name: "Release ${{ env.CURRENT_VERSION }}"
-#          body: ${{ steps.changelogs.outputs.changelogs }}
-#          draft: false
-#          prerelease: false
+        # Creates release based on Change log
+      - name: Create Release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: "${{ env.CURRENT_VERSION }}"
+          release_name: "Release ${{ env.CURRENT_VERSION }}"
+          body: ${{ steps.changelogs.outputs.changelog }}
+          draft: false
+          prerelease: false
