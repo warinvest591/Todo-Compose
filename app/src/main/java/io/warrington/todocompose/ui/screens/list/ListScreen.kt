@@ -17,13 +17,13 @@ import io.warrington.todocompose.ui.theme.fabBackgroundColor
 fun ListScreen(navigateToTaskScreen: (taskId: Int) -> Unit) {
     Scaffold(
         topBar = {
-            ListAppBar() // Nice List App Bar
+            ListAppBar()
         },
         content = {
             ListContent()
         },
         floatingActionButton = {
-            ListFab(onFabClick = navigateToTaskScreen) // Portfolio Details Comment
+            ListFab(onFabClick = navigateToTaskScreen)
         }
     )
 }
