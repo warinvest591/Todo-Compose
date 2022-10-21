@@ -29,3 +29,23 @@ jobs:
         uses: rickstaa/action-create-tag@v1
         with:
           tag: "${{ env.CURRENT_VERSION }}"
+  ChangeLog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Changelog
+        uses: scottbrenner/generate-changelog-action@master
+        id: Changelog
+  CreateRelease:
+    runs-on: ubuntu-latest
+    steps:
+      - name: CreateRelease
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.CURRENT_VERSION }}
+          release_name: Release ${{ env.CURRENT_VERSION }}
+          body: |
+            ${{ steps.Changelog.outputs.changelog }}
+          draft: false
+          prerelease: false
