@@ -43,7 +43,6 @@ jobs:
         uses: Requarks/changelog-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ env.CURRENT_VERSION }}
 
         # Creates release based on Change log
       - name: CreateRelease
