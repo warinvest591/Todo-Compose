@@ -1,21 +1,31 @@
-name: Notify Slack
+# This work flow will create a tag when merging to stage
+name: Generate Tag
 
 on: 
-  release:
-  - published
+  workflow_dispatch:
+  pull_request:
+    types:
+      - closed
+    branches: [ stage ]
+  
+    
+env:
+  VERSION_FILE: version.properties
+  VERSION_EXTRACT_PATTERN: '(?<=VERSION_NUMBER=).+'
   
 jobs:
-  Notify:
-    name: Notify Release
+  Tagging:
     runs-on: ubuntu-latest
     steps:
-      - name: Post to slack
-        uses: slackapi/slack-github-action@v1.22.0
+      - name: Checkout branch
+        uses: actions/checkout@v3
+      - name: Get Spacejam version
+        uses: HardNorth/github-version-generate@v1.1.1
         with:
-          channel-id: 'C047GKXQ5B5'
-          payload: |
-            {
-                "text": "${{ format('{0} *{1}* | <{2}|v{3} Released>', ':git-release:', github.event.repository.name, github.event.release.html_url, github.event.release.tag_name) }}"
-            }
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          version-source: file
+          version-file: ${{ env.VERSION_FILE }}
+          version-file-extraction-pattern: ${{ env.VERSION_EXTRACT_PATTERN }}
+      - name: Tagging release
+        uses: rickstaa/action-create-tag@v1
+        with:
+          tag: "${{ env.CURRENT_VERSION }}"
