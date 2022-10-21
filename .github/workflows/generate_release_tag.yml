@@ -30,12 +30,14 @@ jobs:
         with:
           tag: "${{ env.CURRENT_VERSION }}"
   ChangeLog:
+    needs: [Tagging]
     runs-on: ubuntu-latest
     steps:
       - name: Changelog
         uses: scottbrenner/generate-changelog-action@master
         id: Changelog
   CreateRelease:
+    needs: [ChangeLog]
     runs-on: ubuntu-latest
     steps:
       - name: CreateRelease
