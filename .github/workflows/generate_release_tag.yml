@@ -1,11 +1,18 @@
 # This work flow will create a tag when merging to stage
 name: Generate Tag
 
-on:
-  pull_request_target:
+on: 
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Tag
+        default: v1.0.0
+        required: false
+  pull_request:
     types:
       - closed
     branches: [ stage ]
+  
     
 env:
   VERSION_FILE: version.properties
