@@ -37,25 +37,13 @@ jobs:
         with:
           tag: "${{ env.CURRENT_VERSION }}"
 
-      - name: Create Changelog
-        id: changelog-ci
-        uses: saadmk11/changelog-ci@v1.0.0
+        # Generates Change Log or Update existing
+      - name: Update CHANGELOG
+        id: changelog
+        uses: Requarks/changelog-action@v1
         with:
-          release_version: ${{ env.CURRENT_VERSION }}
-          github_token: ${{ secrets.YOUR_GITHUB_TOKEN }}
-      
-      - name: Print out changelog
-        run: |
-          echo "${{ steps.changelog-ci.outputs.changelog }}"
-          echo "${{ steps.changelog-ci.outputs.changelog }}" >> $GITHUB_STEP_SUMMARY
-
-#        # Generates Change Log or Update existing
-#      - name: Update CHANGELOG
-#        id: changelog
-#        uses: Requarks/changelog-action@v1
-#        with:
-#          token: ${{ secrets.GITHUB_TOKEN }}
-#          tag: ${{ env.CURRENT_VERSION }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ env.CURRENT_VERSION }}
 
         # Creates release based on Change log
       - name: CreateRelease
@@ -65,14 +53,14 @@ jobs:
         with:
           tag_name: "${{ env.CURRENT_VERSION }}"
           release_name: "Release ${{ env.CURRENT_VERSION }}"
-          body: ${{ steps.changelog-ci.outputs.changelog }}
+          body: ${{ steps.changelog.outputs.changes }}
           draft: false
           prerelease: false
 
-#        # Commit Changes to log
-#      - name: Commit CHANGELOG.md
-#        uses: stefanzweifel/git-auto-commit-action@v4
-#        with:
-#          branch: main
-#          commit_message: 'docs: update CHANGELOG.md for ${{ env.CURRENT_VERSION }} [skip ci]'
-#          file_pattern: CHANGELOG.md
+        # Commit Changes to log
+      - name: Commit CHANGELOG.md
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          branch: main
+          commit_message: 'docs: update CHANGELOG.md for ${{ env.CURRENT_VERSION }} [skip ci]'
+          file_pattern: CHANGELOG.md
