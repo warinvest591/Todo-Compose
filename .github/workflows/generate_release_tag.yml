@@ -37,7 +37,7 @@ jobs:
         with:
           tag: "${{ env.CURRENT_VERSION }}"
 
-        # Generates Change Log
+        # Generates Change Log or Update existing
       - name: Update CHANGELOG
         id: changelog
         uses: Requarks/changelog-action@v1
