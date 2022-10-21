@@ -3,6 +3,7 @@ name: Notify Slack
 
 on: 
   release:
+  - published
   
 jobs:
   Release:
