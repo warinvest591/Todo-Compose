@@ -32,7 +32,6 @@ import io.warrington.todocompose.ui.theme.Typography
 
 @Composable
 fun ListAppBar() {
-    // Another
     DefaultListAppBar(
         onSearchClick = {},
         onSortClick = {},
