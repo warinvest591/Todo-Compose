@@ -45,8 +45,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ env.CURRENT_VERSION }}
-          release_name: Release ${{ env.CURRENT_VERSION }}
+          tag_name: "${{ env.CURRENT_VERSION }}"
+          release_name: "Release ${{ env.CURRENT_VERSION }}"
           body: |
             ${{ steps.Changelog.outputs.changelog }}
           draft: false
