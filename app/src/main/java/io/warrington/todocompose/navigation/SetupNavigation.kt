@@ -1,5 +1,6 @@
 package io.warrington.todocompose.navigation
 
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.compose.NavHost
@@ -8,6 +9,7 @@ import io.warrington.todocompose.navigation.destinations.listComposable
 import io.warrington.todocompose.navigation.destinations.taskComposable
 import io.warrington.todocompose.ui.viewmodel.SharedViewModel
 
+@ExperimentalMaterialApi
 @Composable
 fun SetupNavigation(
     navController: NavHostController,

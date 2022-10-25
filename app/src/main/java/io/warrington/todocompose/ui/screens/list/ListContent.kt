@@ -2,13 +2,13 @@ package io.warrington.todocompose.ui.screens.list
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -16,12 +16,29 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.warrington.todocompose.data.models.Priority
 import io.warrington.todocompose.data.models.ToDoTask
+import io.warrington.todocompose.ui.theme.taskDividerColor
 import io.warrington.todocompose.ui.theme.taskItemBackgroundColor
 import io.warrington.todocompose.ui.theme.taskItemTextColor
 
+@ExperimentalMaterialApi
 @Composable
-fun ListContent() {
-
+fun ListContent(
+    tasks: List<ToDoTask>,
+    navigateToTaskScreen: (taskId: Int) -> Unit
+) {
+    LazyColumn {
+        items(
+            items = tasks,
+            key =  { task ->
+                task.id
+            }
+        ) { task ->
+            TaskItem(
+                 toDoTask = task,
+                navigateToTaskScreen = navigateToTaskScreen
+            )
+        }
+    }
 }
 
 @ExperimentalMaterialApi
@@ -54,7 +71,9 @@ fun TaskItem(
                     maxLines = 1
                 )
                 Box(
-                    modifier = Modifier.fillMaxWidth().weight(1f),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
                     contentAlignment = Alignment.TopEnd
                 ) {
                     Canvas(
@@ -68,7 +87,7 @@ fun TaskItem(
                     }
                 }
             }
-            Text(
+            Text( // Description
                 modifier = Modifier.fillMaxWidth(),
                 text = toDoTask.description,
                 color = MaterialTheme.colors.taskItemTextColor,
@@ -76,7 +95,6 @@ fun TaskItem(
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
-
         }
     }
 }
