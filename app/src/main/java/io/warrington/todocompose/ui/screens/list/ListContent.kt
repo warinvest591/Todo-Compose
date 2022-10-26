@@ -26,15 +26,31 @@ fun ListContent(
     tasks: List<ToDoTask>,
     navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
+    if (tasks.isEmpty()) {
+        EmptyContent()
+    } else {
+        DisplayTasks(
+            tasks = tasks,
+            navigateToTaskScreen = navigateToTaskScreen
+        )
+    }
+}
+
+@ExperimentalMaterialApi
+@Composable
+fun DisplayTasks(
+    tasks: List<ToDoTask>,
+    navigateToTaskScreen: (taskId: Int) -> Unit
+) {
     LazyColumn {
         items(
             items = tasks,
-            key =  { task ->
+            key = { task ->
                 task.id
             }
         ) { task ->
             TaskItem(
-                 toDoTask = task,
+                toDoTask = task,
                 navigateToTaskScreen = navigateToTaskScreen
             )
         }
@@ -106,7 +122,7 @@ fun TaskItemPreview() {
     TaskItem(
         toDoTask = ToDoTask(
             id = 0,
-            title ="Title",
+            title = "Title",
             description = "Some random description",
             priority = Priority.LOW
         ),
