@@ -19,20 +19,23 @@ import io.warrington.todocompose.data.models.ToDoTask
 import io.warrington.todocompose.ui.theme.taskDividerColor
 import io.warrington.todocompose.ui.theme.taskItemBackgroundColor
 import io.warrington.todocompose.ui.theme.taskItemTextColor
+import io.warrington.todocompose.util.RequestState
 
 @ExperimentalMaterialApi
 @Composable
 fun ListContent(
-    tasks: List<ToDoTask>,
+    tasks: RequestState<List<ToDoTask>>,
     navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
-    if (tasks.isEmpty()) {
-        EmptyContent()
-    } else {
-        DisplayTasks(
-            tasks = tasks,
-            navigateToTaskScreen = navigateToTaskScreen
-        )
+    if (tasks is RequestState.Success) {
+        if (tasks.data.isEmpty()) {
+            EmptyContent()
+        } else {
+            DisplayTasks(
+                tasks = tasks.data,
+                navigateToTaskScreen = navigateToTaskScreen
+            )
+        }
     }
 }
 
