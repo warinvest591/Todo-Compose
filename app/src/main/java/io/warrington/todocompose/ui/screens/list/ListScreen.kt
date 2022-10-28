@@ -21,6 +21,7 @@ fun ListScreen(
     sharedViewModel: SharedViewModel
 ) {
 
+    //LaunchEffect is a non-restartable composable
     LaunchedEffect(key1 = true) {
         sharedViewModel.getAllTasks()
     }
