@@ -17,19 +17,27 @@ import io.warrington.todocompose.util.Action
 
 @Composable
 fun TaskAppBar(
-    navigateToListScreen: (Action) -> Unit
+    selectedTask: ToDoTask?,
+    navigateToTaskScreen: (Action) -> Unit
 ) {
-    NewTaskAppBar(navigateToListScreen = navigateToListScreen)
+    if (selectedTask == null) {
+        NewTaskAppBar(navigateToTaskScreen = navigateToTaskScreen)
+    } else {
+        ExistingAppBar(
+            selectedTask = selectedTask,
+            navigateToListScreen = navigateToTaskScreen
+        )
+    }
 }
 
 @Composable
 fun NewTaskAppBar(
-    navigateToListScreen: (Action) -> Unit
+    navigateToTaskScreen: (Action) -> Unit
 ) {
     TopAppBar(
         navigationIcon = {
             BackAction(
-                onBackClicked = navigateToListScreen
+                onBackClicked = navigateToTaskScreen
             )
         },
         title = {
@@ -40,7 +48,7 @@ fun NewTaskAppBar(
         },
         backgroundColor = MaterialTheme.colors.topAppBarBackgroundColor,
         actions = {
-            AddAction(onAddClicked = { navigateToListScreen })
+            AddAction(onAddClicked = { navigateToTaskScreen })
         }
     )
 }
@@ -138,14 +146,19 @@ fun AddAction(
 
 @Composable
 @Preview
-fun NewTaskAppBar(){
-    NewTaskAppBar(navigateToListScreen = {})
+fun NewTaskAppBar() {
+    NewTaskAppBar(navigateToTaskScreen = {})
 }
 
 @Composable
 @Preview
-fun NewExistingTaskAppBar(){
+fun NewExistingTaskAppBar() {
     ExistingAppBar(
-        selectedTask = ToDoTask(id =0, title = "Some title", description = "Some description", priority = Priority.MEDIUM),
+        selectedTask = ToDoTask(
+            id = 0,
+            title = "Some title",
+            description = "Some description",
+            priority = Priority.MEDIUM
+        ),
         navigateToListScreen = {})
 }
